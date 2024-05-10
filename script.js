@@ -6,6 +6,7 @@ botaoAdicionar.addEventListener("click", adicionar);
 
 
 
+
 /* FUNCOES  */
 
 
@@ -52,6 +53,8 @@ function adicionar() {
     }else{
         alert("Digite um item válido");
     }
+
+    salvaItemNoHistorico(itemUsuario)
 }
 
 function limpar() {
@@ -62,6 +65,41 @@ function limpar() {
     }
 }
 
+let botaoHistorico = document.getElementById("botao-historico");
+botaoHistorico.addEventListener("click", exibirHistorico);
+
+function salvaItemNoHistorico(novoItem){
+
+    let historico = recuperaHistoricoDeItens ();
+
+    historico.push(novoItem);
+
+    localStorage.setItem("historico", JSON.stringify(historico));
+}
+
+function recuperaHistoricoDeItens() {
+    let historico = localStorage.getItem("historico");
+
+    if(!historico){
+        console.log("historico está vazio")
+        return [];
+    }
+    return JSON.parse(historico);
+}
+
+function exibirHistorico(){
+    let historicoItens = recuperaHistoricoDeItens();
+    let historicoString = "";
+    if(historicoItens.length > 0) {
+        console.log("Histórico de itens:\n");
+        historicoItens.forEach(function(item) {
+            historicoString += "- " + item + "\n";
+        });
+        alert(historicoString);
+    } else {
+        console.log("Nenhum item no histórico")
+    }
+}
 
 
 
